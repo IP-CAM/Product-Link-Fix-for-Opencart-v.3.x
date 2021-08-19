@@ -559,7 +559,15 @@ class ControllerExtensionPaymentPPExpress extends Controller {
                 }
             }
             if (!empty($categoriesPaths)) {
-                $currentCategoryPaths = min($categoriesPaths);
+                $min_category_id = 1000000000;
+                $currentCategoryPaths = array();
+
+                foreach ($categoriesPaths as $key => $item) {
+                    if (isset($item[0]) && isset($item[0]['path_id']) && $item[0]['path_id'] < $min_category_id) {
+                        $min_category_id = $item[0]['path_id'];
+                        $currentCategoryPaths = $item;
+                    }
+                }
 
                 foreach ($currentCategoryPaths as $kk => $currentCategoryPath) {
                     if ($kk != (count($currentCategoryPaths) - 1)) {
